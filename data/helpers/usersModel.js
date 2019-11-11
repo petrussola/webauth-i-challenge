@@ -3,15 +3,22 @@ const db = require("../db-config");
 module.exports = {
   addUser,
   findUserById,
-  findBy
+  findBy,
+  findAll
 };
+
+function findAll() {
+  return db("users");
+}
 
 function findUserById(id) {
   return db("users").where({ id });
 }
 
 function findBy(filter) {
-  return db("users").where(filter).first();
+  return db("users")
+    .where(filter)
+    .first();
 }
 
 function addUser(user) {
