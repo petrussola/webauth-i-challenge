@@ -6,7 +6,7 @@ require("dotenv").config();
 const helmet = require("helmet");
 const bcrypt = require("bcryptjs");
 
-// HELPERS
+// HELPERS BLABLABLA
 
 const Users = require("./data/helpers/usersModel");
 
@@ -36,7 +36,7 @@ server.post("/api/register", (req, res) => {
 
 server.post("/api/login", (req, res) => {
   let { users, password } = req.body;
-  Users.findBy({ users })
+  Users.findBy({ users }) // {users: users}
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         res.status(200).json({ message: `Welcome ${user.users}` });
@@ -78,11 +78,9 @@ function restricted(req, res, next) {
       }
     })
     .catch(error => {
-      res
-        .status(401)
-        .json({
-          message: `There was an error retrieving Users: ${error.message}`
-        });
+      res.status(401).json({
+        message: `There was an error retrieving Users: ${error.message}`
+      });
     });
 }
 
