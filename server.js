@@ -5,6 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const helmet = require("helmet");
 const session = require("express-session");
+const KnexSessionStore = require("connect-session-knex")(session);
 
 // IMPORT ROUTER
 
@@ -24,7 +25,14 @@ const sessionConfig = {
     httpOnly: false
   },
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new KnexSessionStore({
+    knex: require("./data/db-config"),
+    tablename: "sessions",
+    sidfieldname: "sid",
+    createtable: true,
+    clearInterval: 1000 * 60 * 60
+  })
 };
 
 // MIDDLEWARE
